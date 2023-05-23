@@ -7,6 +7,7 @@
         <CurrentWeather :weather="weather" />
       </div>
     </div>
+    <ForecastWeather :computedForecasts="computedObj" />
   </div>
 </template>
 
@@ -14,6 +15,7 @@
 import Header from "./components/Header.vue";
 import SearchBar from "./components/SearchBar.vue";
 import CurrentWeather from './components/CurrentWeather.vue';
+import ForecastWeather from "./components/ForecastWeather.vue";
 import moment from "moment";
 import axios from "axios";
 
@@ -22,16 +24,20 @@ export default {
   components: {
     Header,
     SearchBar,
-    CurrentWeather
+    CurrentWeather,
+    ForecastWeather,
   },
   data: () => ({
     api_key: "6a4d10009b90c42565cefef88b5bf366",
     url_base: "https://api.openweathermap.org/data/2.5/",
     weather: {},
+    forecasts: null,
+    sortedForecasts: {},
     currentLocation: {},
     latitude: "",
     longitude: "",
     moment,
+    limit: 5,
   }),
   methods: {
     async fetchWeather() {
@@ -93,6 +99,15 @@ export default {
   watch: {
     longitude() {
       this.fetchWeather();
+    },
+  },
+  computed: {
+    computedObj() {
+      return this.limit
+        ? Object.entries(this.sortedForecasts)
+            .slice(1, this.limit)
+            .map((entry) => entry[1])
+        : this.sortedForecasts;
     },
   },
 }
