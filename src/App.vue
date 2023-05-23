@@ -1,26 +1,48 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 
 <style>
+@font-face {
+  font-family: avenir;
+  font-weight: bold;
+  src: url("./assets/fonts/AvenirNext-DemiBold.ttf");
+}
+@font-face {
+  font-family: avenir;
+  font-weight: normal;
+  src: url("./assets/fonts/AvenirNext-Regular.ttf");
+}
+@font-face {
+  font-family: avenir;
+  font-weight: 500;
+  src: url("./assets/fonts/AvenirNext-Medium.ttf");
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  width: 100%;
+  height: 100%;
+  color: #f2f0e9;
+  min-height: 100vh;
+  height: 100%;
+}
+html {
+  background-color: #0a0b0e;
+  font-family: avenir;
+}
+.container {
+  margin: 0 auto;
+  max-width: 1280px;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }
 </style>
