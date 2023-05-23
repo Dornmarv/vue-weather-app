@@ -28,8 +28,6 @@ export default {
     ForecastWeather,
   },
   data: () => ({
-    api_key: "6a4d10009b90c42565cefef88b5bf366",
-    url_base: "https://api.openweathermap.org/data/2.5/",
     weather: {},
     forecasts: null,
     sortedForecasts: {},
@@ -43,11 +41,11 @@ export default {
     async fetchWeather() {
       try {
         const res = await axios.get(
-          `${this.url_base}weather?lat=${this.latitude}&lon=${this.longitude}&units=metric&APPID=${this.api_key}`
+          `${process.env.VUE_APP_OPEN_WEATHER_BASE_URL}weather?lat=${this.latitude}&lon=${this.longitude}&units=metric&APPID=${process.env.VUE_APP_OPEN_WEATHER_API_KEY}`
         );
         this.weather = res.data;
         const forecastRes = await axios.get(
-          `${this.url_base}forecast?lat=${this.latitude}&lon=${this.longitude}&units=metric&APPID=${this.api_key}`
+          `${process.env.VUE_APP_OPEN_WEATHER_BASE_URL}forecast?lat=${this.latitude}&lon=${this.longitude}&units=metric&APPID=${process.env.VUE_APP_OPEN_WEATHER_API_KEY}`
         );
 
         this.forecasts = forecastRes.data.list;
@@ -69,7 +67,7 @@ export default {
     async getCurrentLocation() {
       try {
         const res = await axios.get(
-          "https://ipgeolocation.abstractapi.com/v1/?api_key=a4be84b7b5e74cddbf89da513717659d"
+          `https://ipgeolocation.abstractapi.com/v1/?api_key=${process.env.VUE_APP_ABSTRACT_API_KEY}`
         );
         document.getElementById("location").value = res.data.city;
         this.currentLocation = res.data;
