@@ -1,16 +1,23 @@
 <template>
   <div class="container">
     <Header msg="Weather App" />
+    <div class="wrap">
+      <div class="weather-wrap">
+        <SearchBar />
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
+import SearchBar from "./components/SearchBar.vue";
 
 export default {
   name: 'App',
   components: {
-    Header
+    Header,
+    SearchBar
   },
 }
 </script>
@@ -49,5 +56,22 @@ html {
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+.wrap {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.weather-wrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 40vw !important;
+}
+@media screen and (max-width: 540px) {
+  .weather-wrap {
+    width: 80vw !important;
+  }
 }
 </style>
