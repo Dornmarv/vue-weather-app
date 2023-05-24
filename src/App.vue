@@ -12,10 +12,9 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from "vue";
 import Header from "./components/Header.vue";
 import SearchBar from "./components/SearchBar.vue";
-import CurrentWeather from "./components/CurrentWeather.vue";
-import ForecastWeather from "./components/ForecastWeather.vue";
 import moment from "moment";
 import axios from "axios";
 
@@ -24,8 +23,12 @@ export default {
   components: {
     Header,
     SearchBar,
-    CurrentWeather,
-    ForecastWeather,
+    CurrentWeather: defineAsyncComponent(() =>
+      import("./components/CurrentWeather.vue")
+    ),
+    ForecastWeather: defineAsyncComponent(() =>
+      import("./components/ForecastWeather.vue")
+    ),
   },
   data: () => ({
     weather: {},
