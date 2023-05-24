@@ -14,13 +14,13 @@
 <script>
 import Header from "./components/Header.vue";
 import SearchBar from "./components/SearchBar.vue";
-import CurrentWeather from './components/CurrentWeather.vue';
+import CurrentWeather from "./components/CurrentWeather.vue";
 import ForecastWeather from "./components/ForecastWeather.vue";
 import moment from "moment";
 import axios from "axios";
 
 export default {
-  name: 'App',
+  name: "App",
   components: {
     Header,
     SearchBar,
@@ -40,25 +40,26 @@ export default {
   methods: {
     async fetchWeather() {
       try {
-        const res = await axios.get(
+        let currentWeatherReq = axios.get(
           `${process.env.VUE_APP_OPEN_WEATHER_BASE_URL}weather?lat=${this.latitude}&lon=${this.longitude}&units=metric&APPID=${process.env.VUE_APP_OPEN_WEATHER_API_KEY}`
         );
-        this.weather = res.data;
-        const forecastRes = await axios.get(
+        let forecastWeatherReq = axios.get(
           `${process.env.VUE_APP_OPEN_WEATHER_BASE_URL}forecast?lat=${this.latitude}&lon=${this.longitude}&units=metric&APPID=${process.env.VUE_APP_OPEN_WEATHER_API_KEY}`
         );
-
-        this.forecasts = forecastRes.data.list;
-        let finalRes = forecastRes.data.list;
+        const [currentWeatherRes, forecastWeatherRes] = await axios.all([
+          currentWeatherReq,
+          forecastWeatherReq,
+        ]);
+        this.weather = currentWeatherRes.data;
+        let forecastWeatherResList = forecastWeatherRes.data.list;
+        this.forecasts = forecastWeatherResList;
         Object.keys(this.sortedForecasts).forEach((key) => {
           delete this.sortedForecasts[key];
         });
-        for (let i = 0; i < finalRes.length; i++) {
-          let day = this.getDay(finalRes[i].dt);
-          if (!this.sortedForecasts[day]) {
-            this.sortedForecasts[day] = [];
-          }
-          this.sortedForecasts[day].push(finalRes[i]);
+        for (let i = 0; i < forecastWeatherResList.length; i++) {
+          let day = this.getDay(forecastWeatherResList[i].dt);
+          if (!this.sortedForecasts[day]) this.sortedForecasts[day] = [];
+          this.sortedForecasts[day].push(forecastWeatherResList[i]);
         }
       } catch (error) {
         console.log(error);
@@ -108,7 +109,7 @@ export default {
         : this.sortedForecasts;
     },
   },
-}
+};
 </script>
 
 <style>
